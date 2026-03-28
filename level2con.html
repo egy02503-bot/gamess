@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEVEL 2: WORD FORGE</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-image: url(assests/level2_con/download\ \(5\).jpg);
+            display: flex; 
+            justify-content: center; 
+            align-items: center;    
+        }
+
+        .quiz-card { 
+            background: white; 
+            opacity: 0.95;
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center; 
+            transition: all 0.3s ease;
+        }
+
+        button { 
+            background: #007BFF; 
+            color: white; 
+            border: none; 
+            padding: 14px 20px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            width: 100%; 
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        button:hover { background: #0056b3; }
+
+        button.secondary { 
+            background: #6c757d; 
+            margin-top: 10px;
+        }
+
+        button.secondary:hover { background: #5a6268; }
+
+        input { 
+            width: 100%; 
+            padding: 12px; 
+            margin: 20px 0; 
+            border: 2px solid #ddd; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .progress { font-size: 0.85rem; color: #777; margin-bottom: 20px; }
+        #feedback { font-weight: bold; margin: 15px 0; min-height: 1.2em; }
+        .hidden { display: none; }
+        h1 { color: #333; margin-bottom: 10px; }
+
+        /* Badge Styling */
+        .badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .badge-novice { background: linear-gradient(45deg, #8e9eab, #eef2f3); color: #333; }
+        .badge-explorer { background: linear-gradient(45deg, #11998e, #38ef7d); }
+        .badge-seeker { background: linear-gradient(45deg, #FF512F, #DD2476); }
+        .badge-master { background: linear-gradient(45deg, #FFD700, #FFA500); color: #000; border: 2px solid #daa520; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-card" id="quiz-box">
+    <div id="main-menu">
+        <h1>Level 2: Word Forge</h1>
+        <p>Panuto:Basahin nang mabuti ang tulang “Sa Liwanag ng Buwan”. Pagkatapos, tukuyin ang mga salitang may konotasyon (halimbawa: buwan, bituin, anino, bulaklak, alon). Isulat sa sagutang papel ang kahulugan o ipinahihiwatig ng bawat salita batay sa konteksto ng tula.</p>
+        <button onclick="startQuiz()">Magsimula</button>
+    </div>
+
+    <div id="quiz-content" class="hidden">
+        <div class="progress">Tanong <span id="q-number">1</span> ng 9</div>
+        <h2 id="question-text">Loading...</h2>
+        
+        <input type="text" id="answerInput" placeholder="I-type ang sagot..." autofocus>
+        
+        <button onclick="processAnswer()">I-submit</button>
+        <p id="feedback"></p>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { q: "Ano ang kahulugan ng 'Guwardiya'?", a: ["proteksyon", "gabay", "proteksiyon"] },
+        { q: "Ano ang kahulugan ng 'Pangako'?", a: ["pag-asa", "posibilidad"] },
+        { q: "Ano ang kahulugan ng 'Yumuyuko'?", a: ["pagpapakumbaba", "pagsunod"] },
+        { q: "Ano ang kahulugan ng 'Luha'?", a: ["damdamin", "lungkot"] },
+        { q: "Ano ang kahulugan ng 'Nagmumuni'?", a: ["mas malalim na pag-iisip", "pagninilay"] },
+        { q: "Ano ang kahulugan ng 'Sumasamo'?", a: ["pagnanais", "panalangin"] },
+        { q: "Ano ang kahulugan ng 'Naglalagablab'?", a: ["damdaming matindi", "alaala"] },
+        { q: "Ano ang kahulugan ng 'Pag-asa'?", a: ["paniniwala sa magandang bukas"] },
+        { q: "Ano ang kahulugan ng 'Pangarap'?", a: ["hangarin", "layunin sa buhay"] }
+    ];
+
+    let currentQ = 0;
+    let totalScore = 0;
+    const pointsPerQuestion = 11.12;
+
+    const mainMenu = document.getElementById("main-menu");
+    const quizContent = document.getElementById("quiz-content");
+    const qText = document.getElementById("question-text");
+    const qNum = document.getElementById("q-number");
+    const input = document.getElementById("answerInput");
+    const feedback = document.getElementById("feedback");
+
+    function startQuiz() {
+        currentQ = 0;
+        totalScore = 0;
+        mainMenu.classList.add("hidden");
+        quizContent.classList.remove("hidden");
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if (currentQ < quizData.length) {
+            qText.textContent = quizData[currentQ].q;
+            qNum.textContent = currentQ + 1;
+            input.value = "";
+            input.focus();
+        } else {
+            showFinalResults();
+        }
+    }
+
+    function processAnswer() {
+        if (input.value.trim() === "") return;
+
+        const userValue = input.value.trim().toLowerCase();
+        const correctAnswers = quizData[currentQ].a;
+
+        if (correctAnswers.some(ans => userValue.includes(ans.toLowerCase()))) {
+            totalScore += pointsPerQuestion;
+            feedback.textContent = "Tama! ✨";
+            feedback.style.color = "#28a745";
+        } else {
+            feedback.textContent = `Mali. (Sagot: ${correctAnswers[0]})`;
+            feedback.style.color = "#dc3545";
+        }
+
+        currentQ++;
+
+        setTimeout(() => {
+            feedback.textContent = "";
+            loadQuestion();
+        }, 1200);
+    }
+
+    function getBadge(score) {
+        if (score <= 25) return { name: "Novice Dreamer", class: "badge-novice" };
+        if (score <= 50) return { name: "Word Explorer", class: "badge-explorer" };
+        if (score <= 75) return { name: "Simbolismo Seeker", class: "badge-seeker" };
+        return { name: "Konotasyon Master", class: "badge-master" };
+    }
+
+    function showFinalResults() {
+        const finalScore = Math.round(totalScore);
+        const badge = getBadge(finalScore);
+
+        document.getElementById("quiz-box").innerHTML = `
+            <h2>Tapos na!</h2>
+            <p>Ang iyong kabuuang puntos ay:</p>
+            <h1 style="font-size: 3.5rem; margin: 10px 0; color: #333;">${finalScore}</h1>
+            <div class="badge ${badge.class}">${badge.name}</div>
+            <div style="margin-top: 30px;">
+                <button class="secondary" onclick="location.reload()">Bumalik sa Main Menu</button>
+            </div>
+        `;
+    }
+
+    input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") processAnswer();
+    });
+</script>
+
+</body>
+</html>

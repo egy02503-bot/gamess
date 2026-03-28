@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagsasanay: Konotasyon at Denotasyon</title>
+    <style>
+        body {
+            background-color: #1a0f00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Georgia', serif;
+        }
+
+        .container {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://www.transparenttextures.com/patterns/dark-wood.png');
+            background-color: #3d2b1f;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            max-width: 850px;
+            color: #f4e4bc;
+            border: 3px solid #5a3e2b;
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: #ffca28;
+            text-shadow: 2px 2px 4px black;
+        }
+
+        .item {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.15rem;
+        }
+
+        .item-number {
+            font-weight: bold;
+            color: #ffca28;
+            margin-right: 10px;
+        }
+
+        .points-tag {
+            font-size: 0.8rem;
+            color: #a38b6d;
+            font-style: italic;
+            margin-left: 10px;
+        }
+
+        select {
+            background: transparent;
+            border: none;
+            border-bottom: 2px dashed #ffca28;
+            color: #fff;
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            padding: 2px 5px;
+            cursor: pointer;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        select option {
+            background-color: #3d2b1f;
+            color: #f4e4bc;
+        }
+
+        .correct { color: #4caf50 !important; border-bottom: 2px solid #4caf50 !important; font-weight: bold; }
+        .incorrect { color: #f44336 !important; border-bottom: 2px solid #f44336 !important; font-weight: bold; }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button, .menu-link {
+            background-color: #ffca28;
+            color: #3d2b1f;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        button:hover, .menu-link:hover {
+            background-color: #ffd54f;
+            transform: scale(1.05);
+        }
+
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #3d2b1f;
+            border: 4px solid #ffca28;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(255, 202, 40, 0.3);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #f4e4bc;
+        }
+
+        .score-big {
+            font-size: 3.5rem;
+            color: #ffca28;
+            margin: 10px 0;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 202, 40, 0.5);
+        }
+
+        .badge-box {
+            display: block;
+            margin: 20px auto;
+            padding: 15px;
+            border: 2px solid #ffca28;
+            background: rgba(255, 202, 40, 0.1);
+            color: #ffca28;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .secondary-btn {
+            background-color: #f4e4bc;
+            color: #3d2b1f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Level 3: Punan ang Bawat Patlang</h1>
+    
+    <div id="quiz-form">
+        <div class="item">
+            <span class="item-number">1.</span> Dahil sa matinding gutom, siya ay naging 
+            <select data-answer="butot-balat">
+                <option value="">(Pumili...)</option>
+                <option value="payat">payat</option>
+                <option value="butot-balat">butot-balat</option>
+            </select> na lamang. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">2.</span> Ang aming 
+            <select data-answer="tahanan">
+                <option value="">(Pumili...)</option>
+                <option value="bahay">bahay</option>
+                <option value="tahanan">tahanan</option>
+            </select> ay puno ng pagmamahalan. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">3.</span> Si Lolo ay 
+            <select data-answer="ulila sa lakas">
+                <option value="">(Pumili...)</option>
+                <option value="matanda">matanda</option>
+                <option value="ulila sa lakas">ulila sa lakas</option>
+            </select>, kaya't hirap na siya. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">4.</span> Ang kanyang ngiti ay tila 
+            <select data-answer="bituin">
+                <option value="">(Pumili...)</option>
+                <option value="bituin">bituin</option>
+                <option value="ilaw">ilaw</option>
+            </select> na nagbibigay liwanag. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">5.</span> Sa gitna ng problema, siya ay nanatiling 
+            <select data-answer="bato">
+                <option value="">(Pumili...)</option>
+                <option value="matatag">matatag</option>
+                <option value="bato">bato</option>
+            </select> na hindi natinag. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">6.</span> Ang kanyang tinig ay parang 
+            <select data-answer="musika">
+                <option value="">(Pumili...)</option>
+                <option value="musika">musika</option>
+                <option value="ingay">ingay</option>
+            </select> na nakapapawi ng lungkot. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">7.</span> Ang pagkapanalo niya ay isang 
+            <select data-answer="ginto">
+                <option value="">(Pumili...)</option>
+                <option value="tagumpay">tagumpay</option>
+                <option value="ginto">ginto</option>
+            </select> na hindi malilimutan. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">8.</span> Sa bawat pagkakamali, siya ay nagiging 
+            <select data-answer="binhi">
+                <option value="">(Pumili...)</option>
+                <option value="bata">bata</option>
+                <option value="binhi">binhi</option>
+            </select> na handang matuto. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">9.</span> Ang kanyang mga mata ay puno ng 
+            <select data-answer="liwanag">
+                <option value="">(Pumili...)</option>
+                <option value="liwanag">liwanag</option>
+                <option value="dilim">dilim</option>
+            </select> na nagpapakita ng pag-asa. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="item">
+            <span class="item-number">10.</span> Ang pagkakaibigan nila ay parang 
+            <select data-answer="bakal">
+                <option value="">(Pumili...)</option>
+                <option value="bakal">bakal</option>
+                <option value="tali">tali</option>
+            </select> na hindi madaling masira. <span class="points-tag">(10 pts)</span>
+        </div>
+
+        <div class="btn-container">
+            <button onclick="checkAnswers()">I-submit ang Sagot</button>
+        </div>
+    </div>
+</div>
+
+<div id="resultModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="result-title">Ang iyong Resulta:</div>
+        <div id="finalScore" class="score-big">0 pts</div>
+        <div id="finalBadge" class="badge-box">TITLE</div>
+        
+        <div class="modal-buttons">
+            
+            <a href="index1.html" class="menu-link secondary-btn">Main Menu</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function checkAnswers() {
+        const selects = document.querySelectorAll('select');
+        let correctCount = 0;
+
+        selects.forEach(select => {
+            const correctAnswer = select.getAttribute('data-answer');
+            if (select.value === correctAnswer) {
+                select.className = 'correct';
+                correctCount++;
+            } else {
+                select.className = 'incorrect';
+            }
+        });
+
+        const totalPoints = correctCount * 10;
+        
+        // Determine Badge
+        let badgeTitle = "";
+        if (totalPoints <= 25) badgeTitle = "🌱 Novice Dreamer";
+        else if (totalPoints <= 50) badgeTitle = "🔍 Word Explorer";
+        else if (totalPoints <= 75) badgeTitle = "✨ Simbolismo Seeker";
+        else badgeTitle = "🏆 Konotasyon Master";
+
+        // Update Modal
+        document.getElementById('finalScore').innerText = totalPoints + " pts";
+        document.getElementById('finalBadge').innerText = badgeTitle;
+        document.getElementById('resultModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('resultModal').style.display = 'none';
+        const selects = document.querySelectorAll('select');
+        selects.forEach(select => {
+            select.value = "";
+            select.className = "";
+        });
+    }
+</script>
+
+</body>
+</html>

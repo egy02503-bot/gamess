@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symbol Hunt - Level 1</title>
+    <link rel="stylesheet" href="style2dec.css">
+    <style>
+        /* Styling for the Badge and Results */
+        .result-container {
+            text-align: center;
+            padding: 20px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ffd700, #ffae00);
+            color: #333;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            border: 2px solid white;
+            text-transform: uppercase;
+        }
+        .score-text {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .menu-btn {
+            background-color: #4CAF50 !important; /* Different color for menu */
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="feedback" class="feedback-hidden"></div>
+
+    <div class="game-container">
+        <div class="header-banner"></div>
+
+        <div class="question-box" id="questionText">
+            Loading...
+        </div>
+
+        <div class="options-container" id="optionsGroup">
+            </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                q: "1.	Ano ang literal na kahulugan ng antiquadong punò?",
+                options: ["Puno na matanda at may makalumang anyo", "Simbolo ng karunungan", "Lugar ng lihim na kwento", "Alaala ng nakaraan"],
+                correct: 0 
+            },
+            {
+                q: "2. Ano ang denotasyon ng bintanang nakabukas?",
+                options: ["Bintana na nagpapapasok ng liwanag mula sa araw", " Simbolo ng bagong simula", "Palatandaan ng pag-asa", "Pangarap ni Ana"],
+                correct: 0 
+            },
+            {
+                q: "3. Ano ang literal na kahulugan ng libro?",
+                options: ["Kasangkapan sa paglalaro", "Bagay na naglalaman ng nakasulat na impormasyon", "Simbolo ng kaalaman", "Alaala ng kabataan"],
+                correct: 1
+            },
+            {
+                q: "4. Ano ang literal na tinutukoy ng upuan?",
+                options: ["Lugar para maupo", "Simbolo ng pahinga", "Tanda ng alaala", "Kaibigan ni Ana"],
+                correct: 0 
+            },
+            {
+                q: "5. Malamig ang simoy ng hangin, at ang mga dahon ay dahan-dahang sumasayaw sa himpapawid. Ano ang literal na tinutukoy ng dahon?",
+                options: ["Tanda ng pagbabago", "Parte ng halaman na gumagalaw sa hangin", "Simbolo ng buhay", "Kaibigan ni Ana"],
+                correct: 1 
+            }
+        ];
+
+        let currentQuestion = 0;
+        let totalScore = 0;
+
+        function loadQuestion() {
+            const qBox = document.getElementById('questionText');
+            const oGroup = document.getElementById('optionsGroup');
+            const data = quizData[currentQuestion];
+
+            qBox.innerText = data.q;
+            oGroup.innerHTML = '';
+
+            data.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index);
+                oGroup.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const feedback = document.getElementById('feedback');
+            const isCorrect = selectedIndex === quizData[currentQuestion].correct;
+
+            if (isCorrect) {
+                totalScore += 20; // Each question = 20 points
+                feedback.className = 'feedback-show correct';
+                feedback.innerText = "TAMANG SAGOT! 🎉";
+            } else {
+                feedback.className = 'feedback-show wrong';
+                feedback.innerText = "MALI ANG SAGOT! ❌";
+            }
+
+            // Lock buttons during feedback
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(b => b.disabled = true);
+
+            setTimeout(() => {
+                feedback.className = 'feedback-hidden';
+                currentQuestion++;
+                
+                if (currentQuestion < quizData.length) {
+                    loadQuestion();
+                } else {
+                    showFinalResult();
+                }
+            }, 1500);
+        }
+
+        function getBadgeInfo(score) {
+            if (score <= 25) return "Novice Dreamer";
+            if (score <= 50) return "Word Explorer";
+            if (score <= 75) return "Simbolismo Seeker";
+            return "Konotasyon Master";
+        }
+
+        function showFinalResult() {
+            const badgeLabel = getBadgeInfo(totalScore);
+            const qBox = document.getElementById('questionText');
+            const oGroup = document.getElementById('optionsGroup');
+
+            qBox.innerText = "LEVEL COMPLETE!";
+            
+            oGroup.innerHTML = `
+                <div class="result-container">
+                    <div class="score-text">Nakuha mo: ${totalScore} Puntos</div>
+                    <div class="badge">${badgeLabel}</div>
+                    <br>
+                    <button class="option-btn menu-btn" onclick="window.location.href='index1.html'">Bumalik sa Main Menu</button>
+                </div>
+            `;
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>

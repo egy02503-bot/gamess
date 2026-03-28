@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagsasanay: Denotasyon (Literal na Kahulugan)</title>
+    <style>
+        body {
+            background-color: #1a0f00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Georgia', serif;
+        }
+
+        .container {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://www.transparenttextures.com/patterns/dark-wood.png');
+            background-color: #3d2b1f;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+            max-width: 850px;
+            color: #f4e4bc;
+            border: 3px solid #5a3e2b;
+        }
+
+        h1 {
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: #ffca28;
+            text-shadow: 2px 2px 4px black;
+        }
+
+        .item {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.15rem;
+        }
+
+        .item-number {
+            font-weight: bold;
+            color: #ffca28;
+            margin-right: 10px;
+        }
+
+        select {
+            background: transparent;
+            border: none;
+            border-bottom: 2px dashed #ffca28;
+            color: #fff;
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            padding: 2px 5px;
+            cursor: pointer;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        select option {
+            background-color: #3d2b1f;
+            color: #f4e4bc;
+        }
+
+        .correct { color: #4caf50 !important; border-bottom: 2px solid #4caf50 !important; font-weight: bold; }
+        .incorrect { color: #f44336 !important; border-bottom: 2px solid #f44336 !important; font-weight: bold; }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button, .menu-link {
+            background-color: #ffca28;
+            color: #3d2b1f;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        button:hover, .menu-link:hover {
+            background-color: #ffd54f;
+            transform: scale(1.05);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #3d2b1f;
+            border: 4px solid #ffca28;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 0 30px rgba(255, 202, 40, 0.3);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #f4e4bc;
+        }
+
+        .score-big {
+            font-size: 3.5rem;
+            color: #ffca28;
+            margin: 10px 0;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 202, 40, 0.5);
+        }
+
+        .badge-box {
+            display: block;
+            margin: 20px auto;
+            padding: 15px;
+            border: 2px solid #ffca28;
+            background: rgba(255, 202, 40, 0.1);
+            color: #ffca28;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .secondary-btn {
+            background-color: #f4e4bc;
+            color: #3d2b1f;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Denotasyon: Mas Malalim na Salita</h1>
+    
+    <div id="quiz-form">
+        <div class="item">
+            <span class="item-number">1.</span> Ang 
+            <select data-answer="ubas">
+                <option value="">(Pumili...)</option>
+                <option value="ubas">ubas</option>
+                <option value="vino">vino</option>
+            </select> ay isang uri ng halamang ginagamit sa paggawa ng alak at langis.
+        </div>
+
+        <div class="item">
+            <span class="item-number">2.</span> Ang 
+            <select data-answer="seismograph">
+                <option value="">(Pumili...)</option>
+                <option value="seismograph">seismograph</option>
+                <option value="pagyanig">pagyanig</option>
+            </select> ay isang kasangkapang pang-agham na sumusukat sa lakas ng lindol.
+        </div>
+
+        <div class="item">
+            <span class="item-number">3.</span> Ang 
+            <select data-answer="alimango">
+                <option value="">(Pumili...)</option>
+                <option value="alimango">alimango</option>
+                <option value="sipag">sipag</option>
+            </select> ay isang uri ng hayop na kabilang sa pamilya ng crustacean.
+        </div>
+
+        <div class="item">
+            <span class="item-number">4.</span> Ang 
+            <select data-answer="basalto">
+                <option value="">(Pumili...)</option>
+                <option value="basalto">basalto</option>
+                <option value="lakas">lakas</option>
+            </select> ay isang uri ng bato na nagmula sa pagsabog ng bulkan.
+        </div>
+
+        <div class="item">
+            <span class="item-number">5.</span> Ang 
+            <select data-answer="kompas">
+                <option value="">(Pumili...)</option>
+                <option value="kompas">kompas</option>
+                <option value="paglalakbay">paglalakbay</option>
+            </select> ay isang kasangkapang ginagamit sa pagtukoy ng direksiyon.
+        </div>
+
+        <div class="item">
+            <span class="item-number">6.</span> Ang 
+            <select data-answer="aluminyo">
+                <option value="">(Pumili...)</option>
+                <option value="aluminyo">aluminyo</option>
+                <option value="kinang">kinang</option>
+            </select> ay metal na ginagamit sa eroplano dahil sa gaan nito.
+        </div>
+
+        <div class="item">
+            <span class="item-number">7.</span> Ang 
+            <select data-answer="aklatan">
+                <option value="">(Pumili...)</option>
+                <option value="aklatan">aklatan</option>
+                <option value="karunungan">karunungan</option>
+            </select> ay isang gusali na nagsisilbing imbakan ng mga aklat.
+        </div>
+
+        <div class="item">
+            <span class="item-number">8.</span> Ang 
+            <select data-answer="lawin">
+                <option value="">(Pumili...)</option>
+                <option value="lawin">lawin</option>
+                <option value="kalayaan">kalayaan</option>
+            </select> ay isang uri ng ibon na kilala sa mabilis na paglipad.
+        </div>
+
+        <div class="item">
+            <span class="item-number">9.</span> Ang 
+            <select data-answer="lavender">
+                <option value="">(Pumili...)</option>
+                <option value="lavender">lavender</option>
+                <option value="ganda">ganda</option>
+            </select> ay isang uri ng halamang ginagamit sa gamot at pabango.
+        </div>
+
+        <div class="item">
+            <span class="item-number">10.</span> Ang 
+            <select data-answer="barko">
+                <option value="">(Pumili...)</option>
+                <option value="barko">barko</option>
+                <option value="pangarap">pangarap</option>
+            </select> ay isang uri ng malaking sasakyang pandagat.
+        </div>
+
+        <div class="btn-container">
+            <button onclick="checkAnswers()">I-submit ang Sagot</button>
+        </div>
+    </div>
+</div>
+
+<div id="resultModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="result-title">Ang iyong Resulta:</div>
+        <div id="finalScore" class="score-big">0 pts</div>
+        <div id="finalBadge" class="badge-box">TITLE</div>
+        
+        <div class="modal-buttons">
+            <button onclick="closeModal()">Subukan Muli</button>
+            <a href="#" class="menu-link secondary-btn">Main Menu</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function checkAnswers() {
+        const selects = document.querySelectorAll('select');
+        let correctCount = 0;
+
+        selects.forEach(select => {
+            const correctAnswer = select.getAttribute('data-answer');
+            if (select.value === correctAnswer) {
+                select.className = 'correct';
+                correctCount++;
+            } else {
+                select.className = 'incorrect';
+            }
+        });
+
+        const totalPoints = correctCount * 10;
+        
+        let badgeTitle = "";
+        if (totalPoints <= 30) badgeTitle = "🌱 Nagsisimula Pa Lang";
+        else if (totalPoints <= 60) badgeTitle = "🔍 Mapagmasid na Mag-aaral";
+        else if (totalPoints <= 90) badgeTitle = "✨ Literal Specialist";
+        else badgeTitle = "🏆 Denotasyon Master";
+
+        document.getElementById('finalScore').innerText = totalPoints + " pts";
+        document.getElementById('finalBadge').innerText = badgeTitle;
+        document.getElementById('resultModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('resultModal').style.display = 'none';
+        const selects = document.querySelectorAll('select');
+        selects.forEach(select => {
+            select.value = "";
+            select.className = "";
+        });
+    }
+</script>
+
+</body>
+</html>

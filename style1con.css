@@ -1,0 +1,99 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Trebuchet MS', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('assests/level1_con/backgroundddd.png') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+}
+
+.header-banner {
+    background: url('assests/level1_con/level111.png') no-repeat center;
+    background-size: contain;
+    width: 450px;
+    height: 120px;
+    margin-bottom: 10px;
+}
+
+.question-box {
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 25px 50px;
+    border-radius: 12px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    border: 3px solid #d4af37; /* Gold border */
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    align-items: center;
+}
+
+.option-btn {
+    background: url('assests/level1_con/box.png') no-repeat center;
+    background-size: 100% 100%;
+    width: 500px;
+    height: 75px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    transition: transform 0.2s ease, filter 0.2s;
+    outline: none;
+}
+
+.option-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}
+
+/* Feedback Overlay Styles */
+.feedback-hidden {
+    display: none;
+}
+
+.feedback-show {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px 60px;
+    border-radius: 20px;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: white;
+    z-index: 100;
+    text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.correct { background-color: rgba(39, 174, 96, 0.95); }
+.wrong { background-color: rgba(192, 57, 43, 0.95); }
+
+@keyframes popIn {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}

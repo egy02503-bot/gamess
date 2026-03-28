@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konotasyon Quest</title>
+    <link rel="stylesheet" href="style2.css">
+    <style>
+        /* This ensures only the titles look like links */
+        .level-title-link {
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            display: inline-block; /* Keeps the clickable area to the text size */
+        }
+        .level-title-link:hover {
+            filter: brightness(1.5);
+            text-shadow: 0 0 10px yellow; /* Optional "glow" effect */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        
+        <div class="absolute lampbook"><img src="assests/conotasyon_nav/lampbook.png" alt="Lamp"></div>
+        <div class="absolute main-title"><img src="assests/denotasyon_nav/title_background.png" alt="Title"></div>
+
+        <a href="storyboard1d.html" class="level-title-link">
+            <div class="absolute level-title lvl1-title">LEVEL 1: SYMBOL HUNT</div>
+        </a>
+        <div class="absolute lvl1-icons">
+            <div class="icon-box"><img src="assests/denotasyon_nav/puno.png" alt="Puno"><div class="icon-text">Puno</div></div>
+            <div class="icon-box"><img src="assests/denotasyon_nav/dahon.png" alt="Dahon"><div class="icon-text">Dahon</div></div>
+            <div class="icon-box"><img src="assests/denotasyon_nav/chair.png" alt="Chair"><div class="icon-text">Chair</div></div>
+            <div class="icon-box"><img src="assests/denotasyon_nav/book.png" alt="Libro"><div class="icon-text">Libro</div></div>
+            <div class="icon-box"><img src="assests/denotasyon_nav/bintana.png" alt="Bintana"><div class="icon-text">Bintana</div></div>
+        </div>
+
+        <div class="absolute journal"><img src="assests/denotasyon_nav/journal.png" alt="Journal"></div>
+        <a href="storyboard2d.html" class="level-title-link">
+            <div class="absolute level-title lvl2-title">LEVEL 2: WORD FORGE</div>
+        </a>
+        <div class="absolute level-desc lvl2-desc">Bumuo ng Malikhaing Pangungusap!</div>
+
+        <a href="level3dec.html" class="level-title-link">
+            <div class="absolute level-title lvl3-title">LEVEL 3: FILL IN THE BLANK</div>
+        </a>
+        <div class="absolute level-desc lvl3-desc">Kumpletuhin ang Nawawalang Salita!</div>
+
+
+        <div class="absolute chest"><img src="assests/denotasyon_nav/chest.png" alt="Treasure Chest"></div>
+
+        <div class="absolute legends-container">
+            <div class="legend-title">LEGENDS</div>
+            <div class="legend-item"><img src="assests/denotasyon_nav/masterss.png" alt="Master"><span>Konotasyon<br>Masters</span></div>
+            <div class="legend-item"><img src="assests/denotasyon_nav/hat.png" alt="Seeker"><span>Simbolismo<br>Seekers</span></div>
+            <div class="legend-item"><img src="assests/denotasyon_nav/explorer.png" alt="Explorer"><span>Word<br>Explorers</span></div>
+            <div class="legend-item"><img src="assests/denotasyon_nav/dreamers.png" alt="Dreamer"><span>Novice<br>Dreamers</span></div>
+        </div>
+
+        <div class="absolute quit-btn" style="bottom: 20px; right: 20px;">
+            <button onclick="window.close()" style="background: none; border: none; cursor: pointer;">
+                <img src="assests/mainmenu/quit.png" alt="Umalis" style="width: 120px;">
+            </button>
+        </div>
+    </div>
+</body>
+</html>
